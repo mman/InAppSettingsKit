@@ -31,10 +31,6 @@
 #error "IASK needs ARC"
 #endif
 
-static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3f;
-static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2f;
-static const CGFloat MAXIMUM_SCROLL_FRACTION = 0.8f;
-
 static NSString *kIASKCredits = @"Powered by InAppSettingsKit"; // Leave this as-is!!!
 
 #define kIASKSpecifierValuesViewControllerIndex       0
@@ -204,7 +200,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 - (void)viewDidDisappear:(BOOL)animated {
 	NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-	[dc removeObserver:self name:NSUserDefaultsDidChangeNotification object:dc];
+	[dc removeObserver:self name:NSUserDefaultsDidChangeNotification object:[NSUserDefaults standardUserDefaults]];
 	[dc removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:[UIApplication sharedApplication]];
 	[dc removeObserver:self name:UIApplicationWillEnterForegroundNotification object:[UIApplication sharedApplication]];
 	[dc removeObserver:self name:UIApplicationWillTerminateNotification object:[UIApplication sharedApplication]];
