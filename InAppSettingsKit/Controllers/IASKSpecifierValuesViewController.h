@@ -27,10 +27,10 @@
     NSIndexPath             *_checkedItem;
 	IASKSettingsReader		*_settingsReader;
     id<IASKSettingsStore>	_settingsStore;
+    BOOL                    _statusBarHidden;
 }
 
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSIndexPath *checkedItem;
 @property (nonatomic, retain) IASKSpecifier *currentSpecifier;
-
 @end

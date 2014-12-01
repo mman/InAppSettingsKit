@@ -43,6 +43,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 @interface IASKAppSettingsViewController () {
     IASKSettingsReader		*_settingsReader;
     id<IASKSettingsStore>  _settingsStore;
+    BOOL                    _statusBarHidden;
     
     id                      _currentFirstResponder;
     __weak UIViewController *_currentChildViewController;
@@ -61,6 +62,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 //synthesize properties from protocol
 @synthesize settingsReader = _settingsReader;
 @synthesize settingsStore = _settingsStore;
+@synthesize statusBarHidden = _statusBarHidden;
 @synthesize file = _file;
 
 #pragma mark accessors
@@ -619,6 +621,7 @@ CGRect IASKCGRectSwap(CGRect rect);
         [targetViewController setCurrentSpecifier:specifier];
         targetViewController.settingsReader = self.settingsReader;
         targetViewController.settingsStore = self.settingsStore;
+        targetViewController.statusBarHidden = [self prefersStatusBarHidden];
         _currentChildViewController = targetViewController;
         [[self navigationController] pushViewController:targetViewController animated:YES];
         
@@ -672,6 +675,7 @@ CGRect IASKCGRectSwap(CGRect rect);
         targetViewController.file = specifier.file;
         targetViewController.hiddenKeys = self.hiddenKeys;
         targetViewController.title = specifier.title;
+        targetViewController.statusBarHidden = [self prefersStatusBarHidden];
         _currentChildViewController = targetViewController;
         
         _reloadDisabled = NO;

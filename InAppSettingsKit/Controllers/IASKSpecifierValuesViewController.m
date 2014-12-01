@@ -32,6 +32,7 @@
 @synthesize checkedItem=_checkedItem;
 @synthesize settingsReader = _settingsReader;
 @synthesize settingsStore = _settingsStore;
+@synthesize statusBarHidden = _statusBarHidden;
 
 - (void) updateCheckedItem {
     NSInteger index;
@@ -95,6 +96,11 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return self.statusBarHidden;
 }
 
 - (void)didReceiveMemoryWarning {

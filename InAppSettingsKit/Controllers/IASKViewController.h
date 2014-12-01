@@ -22,5 +22,6 @@
 
 @property (nonatomic, retain) IASKSettingsReader* settingsReader;
 @property (nonatomic, retain) id<IASKSettingsStore> settingsStore;
+@property (assign) BOOL statusBarHidden;
 
 @end
