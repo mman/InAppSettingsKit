@@ -341,6 +341,7 @@ CGRect IASKCGRectSwap(CGRect rect);
             [self.settingsStore setBool:NO forKey:[toggle key]]; 
         }
     }
+    [self.settingsStore synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged
                                                         object:[toggle key]
                                                       userInfo:[NSDictionary dictionaryWithObject:[self.settingsStore objectForKey:[toggle key]]
@@ -350,6 +351,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 - (void)sliderChangedValue:(id)sender {
     IASKSlider *slider = (IASKSlider*)sender;
     [self.settingsStore setFloat:[slider value] forKey:[slider key]];
+    [self.settingsStore synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged
                                                         object:[slider key]
                                                       userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:[slider value]]
@@ -805,6 +807,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 - (void)_textChanged:(id)sender {
     IASKTextField *text = sender;
     [_settingsStore setObject:[text text] forKey:[text key]];
+    [_settingsStore synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:kIASKAppSettingChanged
                                                         object:[text key]
                                                       userInfo:[NSDictionary dictionaryWithObject:[text text]
