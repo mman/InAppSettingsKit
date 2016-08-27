@@ -122,6 +122,7 @@ CGRect IASKCGRectSwap(CGRect rect);
     return self;
 }
 
+#if 0 // mman: initWithNibName is deprecated
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if (!nibNameOrNil) {
@@ -130,6 +131,7 @@ CGRect IASKCGRectSwap(CGRect rect);
     NSLog (@"%@ is now deprecated, we are moving away from nibs.", NSStringFromSelector(_cmd));
     return [self initWithStyle:UITableViewStyleGrouped];
 }
+#endif
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -691,10 +693,12 @@ CGRect IASKCGRectSwap(CGRect rect);
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         if ([self.delegate respondsToSelector:@selector(settingsViewController:buttonTappedForSpecifier:)]) {
             [self.delegate settingsViewController:self buttonTappedForSpecifier:specifier];
+#if 0 // mman: deprecated
         } else if ([self.delegate respondsToSelector:@selector(settingsViewController:buttonTappedForKey:)]) {
             // deprecated, provided for backward compatibility
             NSLog(@"InAppSettingsKit Warning: -settingsViewController:buttonTappedForKey: is deprecated. Please use -settingsViewController:buttonTappedForSpecifier:");
             [self.delegate settingsViewController:self buttonTappedForKey:[specifier key]];
+#endif
         } else {
             // legacy code, provided for backward compatibility
             // the delegate mechanism above is much cleaner and doesn't leak
