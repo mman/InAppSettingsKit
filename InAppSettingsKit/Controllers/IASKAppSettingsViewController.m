@@ -846,7 +846,7 @@ static NSDictionary *oldUserDefaults = nil;
 			}
 		}
 	}
-	oldUserDefaults = currentDict;
+	oldUserDefaults = [currentDict copy];
 	
 	for (UITableViewCell *cell in self.tableView.visibleCells) {
 		if ([cell isKindOfClass:[IASKPSTextFieldSpecifierViewCell class]] && [((IASKPSTextFieldSpecifierViewCell*)cell).textField isFirstResponder]) {
