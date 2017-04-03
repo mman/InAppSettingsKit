@@ -836,28 +836,31 @@ CGRect IASKCGRectSwap(CGRect rect);
 
 static NSDictionary *oldUserDefaults = nil;
 - (void)userDefaultsDidChange {
-	NSDictionary *currentDict = [NSUserDefaults standardUserDefaults].dictionaryRepresentation;
-	NSMutableArray *indexPathsToUpdate = [NSMutableArray array];
-	for (NSString *key in currentDict.allKeys) {
-		if (![[oldUserDefaults valueForKey:key] isEqual:[currentDict valueForKey:key]]) {
-			NSIndexPath *path = [self.settingsReader indexPathForKey:key];
-			if (path && ![[self.settingsReader specifierForKey:key].type isEqualToString:kIASKCustomViewSpecifier]) {
-				[indexPathsToUpdate addObject:path];
-			}
-		}
-	}
-	oldUserDefaults = [currentDict copy];
-	
-	for (UITableViewCell *cell in self.tableView.visibleCells) {
-		if ([cell isKindOfClass:[IASKPSTextFieldSpecifierViewCell class]] && [((IASKPSTextFieldSpecifierViewCell*)cell).textField isFirstResponder]) {
-			[indexPathsToUpdate removeObject:[self.tableView indexPathForCell:cell]];
-		}
-	}
-	if (indexPathsToUpdate.count) {
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-			[self.tableView reloadRowsAtIndexPaths:indexPathsToUpdate withRowAnimation:UITableViewRowAnimationNone];
-		});
-	}
+    // make sure we are always on the main queue
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        NSDictionary *currentDict = [NSUserDefaults standardUserDefaults].dictionaryRepresentation;
+        NSMutableArray *indexPathsToUpdate = [NSMutableArray array];
+        for (NSString *key in currentDict.allKeys) {
+            if (![[oldUserDefaults valueForKey:key] isEqual:[currentDict valueForKey:key]]) {
+                NSIndexPath *path = [self.settingsReader indexPathForKey:key];
+                if (path && ![[self.settingsReader specifierForKey:key].type isEqualToString:kIASKCustomViewSpecifier]) {
+                    [indexPathsToUpdate addObject:path];
+                }
+            }
+        }
+        oldUserDefaults = [currentDict copy];
+
+        for (UITableViewCell *cell in self.tableView.visibleCells) {
+            if ([cell isKindOfClass:[IASKPSTextFieldSpecifierViewCell class]] && [((IASKPSTextFieldSpecifierViewCell*)cell).textField isFirstResponder]) {
+                [indexPathsToUpdate removeObject:[self.tableView indexPathForCell:cell]];
+            }
+        }
+        if (indexPathsToUpdate.count) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.tableView reloadRowsAtIndexPaths:indexPathsToUpdate withRowAnimation:UITableViewRowAnimationNone];
+            });
+        }
+    });
 }
 
 - (void)reload {

@@ -192,15 +192,18 @@
 #pragma mark Notifications
 
 - (void)userDefaultsDidChange {
-	NSIndexPath *oldCheckedItem = self.checkedItem;
-	if(_currentSpecifier) {
-		[self updateCheckedItem];
-	}
-	
-	// only reload the table if it had changed; prevents animation cancellation
-	if (![self.checkedItem isEqual:oldCheckedItem]) {
-		[_tableView reloadData];
-	}
+    // make sure we are always on the main queue
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        NSIndexPath *oldCheckedItem = self.checkedItem;
+        if(_currentSpecifier) {
+            [self updateCheckedItem];
+        }
+
+        // only reload the table if it had changed; prevents animation cancellation
+        if (![self.checkedItem isEqual:oldCheckedItem]) {
+            [_tableView reloadData];
+        }
+    });
 }
 
 @end
