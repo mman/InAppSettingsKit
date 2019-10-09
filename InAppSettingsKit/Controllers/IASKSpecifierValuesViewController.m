@@ -129,12 +129,12 @@
 
 - (void)selectCell:(UITableViewCell *)cell {
 	[cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-	[[cell textLabel] setTextColor:kIASKgrayBlueColor];
+	//[[cell textLabel] setTextColor:kIASKgrayBlueColor];
 }
 
 - (void)deselectCell:(UITableViewCell *)cell {
 	[cell setAccessoryType:UITableViewCellAccessoryNone];
-	[[cell textLabel] setTextColor:[UIColor darkTextColor]];
+	//[[cell textLabel] setTextColor:[UIColor darkTextColor]];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
